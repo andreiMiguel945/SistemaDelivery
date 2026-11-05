@@ -8,8 +8,7 @@ public class Pedido {
     private double valor;
     private boolean pago;
 
-    public Pedido(int codigo, String descricao,
-                  String cliente, double valor, boolean pago) {
+    public Pedido(int codigo, String descricao, String cliente, double valor, boolean pago) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.cliente = cliente;

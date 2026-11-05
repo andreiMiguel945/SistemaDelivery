@@ -21,15 +21,35 @@ public class GerenciadorPedido {
 
         for (Pedido p : pedidos) {
             if (p.getCodigo() == codigo) {
-                System.out.println(
-                        p.getDescricao() + " - " +
-                                p.getCliente() + " - " +
-                                p.getValor()
-                );
+                System.out.println(p.getDescricao() + " - " + p.getCliente() + " - " + p.getValor());
                 return;
             }
         }
 
         System.out.println("Pedido não encontrado!");
+    }
+
+    public void efetuarPagamento(int codigo, String metodoPagamento, double valorInserido) {
+        double precoPedido = 0;
+        boolean resultado = false;
+        for (Pedido p : pedidos) {
+            if (p.getCodigo() == codigo) {
+                precoPedido = p.getValor();
+                if(metodoPagamento.equals("Credito")){
+                    PagamentoCartao cartao = new PagamentoCartao("Credito",precoPedido);
+                    resultado = cartao.Pagar(valorInserido);
+                }else if(metodoPagamento.equals("Debito")){
+                    PagamentoCartao cartao = new PagamentoCartao("Debito", precoPedido);
+                    resultado = cartao.Pagar(precoPedido);
+                }else if(metodoPagamento.equals("Pix")){
+                    PagamentoPix pix = new PagamentoPix(precoPedido);
+                    resultado = pix.Pagar(precoPedido);
+                }else if(metodoPagamento.equals("Dinheiro")){}
+                if(resultado){
+                    p.setPago(true);
+                }
+                break;
+            }
+        }
     }
 }

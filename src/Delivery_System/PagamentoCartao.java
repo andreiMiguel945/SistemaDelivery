@@ -8,12 +8,13 @@ public class PagamentoCartao implements Pagamento{
         this.valorPedido = valorPedido;
     }
 
+    @Override
     public boolean Pagar(double valorInserido){
         if(valorInserido >0 && valorInserido == valorPedido){
-            if(metodoPagamento.equals("Crédito")){
+            if(metodoPagamento.equals("Credito")){
                 System.out.println("Pagamento realizado no crédito!");
 
-            }else if(metodoPagamento.equals("Débito")){
+            }else if(metodoPagamento.equals("Debito")){
                 System.out.println("Pagamento realizado no débito!");
 
             }else{

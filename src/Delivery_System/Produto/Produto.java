@@ -1,4 +1,4 @@
-package Delivery_System;
+package Delivery_System.Produto;
 
 public abstract class Produto {
 

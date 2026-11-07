@@ -1,4 +1,4 @@
-package Delivery_System;
+package Delivery_System.Pagamento;
 
 public class PagamentoDinheiro implements Pagamento {
 

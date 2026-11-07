@@ -1,6 +1,6 @@
-package Delivery_System;
+package Delivery_System.Pagamento;
 
-public class PagamentoCartao implements Pagamento{
+public class PagamentoCartao implements Pagamento {
     private String metodoPagamento;
     private double valorPedido;
     public PagamentoCartao(String metodoPagamento, double valorPedido) {

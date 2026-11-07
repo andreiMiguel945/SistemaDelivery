@@ -1,14 +1,15 @@
-package Delivery_System;
+package Delivery_System.Produto;
 
-public class Hambuguer extends Produto{
 
-    public Hambuguer(String nome, double preco) {
+public class Bebida  extends Produto {
+
+    public Bebida(String nome, double preco) {
         super(nome, preco);
     }
 
     @Override
     public void inserirNoPedido() {
-        System.out.println("Hambuguer de " + getNome() + " inserido com sucesso!");
+        System.out.println("A bebida " + getNome() + " inserido com sucesso!");
     }
 
     @Override
@@ -21,3 +22,4 @@ public class Hambuguer extends Produto{
         return super.getPreco();
     }
 }
+

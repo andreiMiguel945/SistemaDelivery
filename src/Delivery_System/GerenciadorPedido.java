@@ -1,27 +1,57 @@
 package Delivery_System;
 
-import java.util.ArrayList;
 
-public class GerenciadorPedido {
+import Delivery_System.Notificacao.Notificacao;
+import Delivery_System.Produto.Produto;
+import Delivery_System.Pagamento.Pagamento;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class GerenciadorPedido implements GerenciamentoPedido{
 
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private int contador = 0;
 
-    public void criarPedido(String descricao, String cliente, double valor) {
+    @Override
+    public void criarPedido(String descricao, String cliente, Notificacao meioDeComunicao, Produto produto) {
         contador++;
 
-        Pedido pedido = new Pedido(contador, descricao, cliente, valor, false);
+        Pedido pedido = new Pedido(contador, descricao + " - " + produto.getNome(), cliente, meioDeComunicao, produto.getPreco(), false);
 
         pedidos.add(pedido);
+
+        produto.inserirNoPedido();
 
         System.out.println("Pedido criado!");
     }
 
+    public void adicionarProduto(int codigo, Produto produto) {
+        for(Pedido p : pedidos) {
+            if(p.getCodigo() == codigo) {
+                double novoValor = p.getValor() + produto.getPreco();
+                p.setValor(novoValor);
+
+                p.setDescricao(p.getDescricao() + " - " + produto.getNome());
+
+                produto.inserirNoPedido();
+
+                System.out.println("Produto adicionado ao pedido " + p.getCodigo() + "!");
+                System.out.println("Novo valor: R$" + p.getValor());
+
+                return;
+            }
+        }
+        System.out.println("Pedido não encontrado!");
+    }
+    @Override
     public void exibirPedido(int codigo) {
 
         for (Pedido p : pedidos) {
             if (p.getCodigo() == codigo) {
                 System.out.println(p.getDescricao() + " - " + p.getCliente() + " - " + p.getValor());
+                System.out.println("Pedido pago: " + p.isPago());
                 return;
             }
         }
@@ -29,27 +59,43 @@ public class GerenciadorPedido {
         System.out.println("Pedido não encontrado!");
     }
 
-    public void efetuarPagamento(int codigo, String metodoPagamento, double valorInserido) {
-        double precoPedido = 0;
-        boolean resultado = false;
+    public boolean efetuarPagamento(int codigo, Pagamento pagamento, double valorInserido) {
+
         for (Pedido p : pedidos) {
+
             if (p.getCodigo() == codigo) {
-                precoPedido = p.getValor();
-                if(metodoPagamento.equals("Credito")){
-                    PagamentoCartao cartao = new PagamentoCartao("Credito",precoPedido);
-                    resultado = cartao.Pagar(valorInserido);
-                }else if(metodoPagamento.equals("Debito")){
-                    PagamentoCartao cartao = new PagamentoCartao("Debito", precoPedido);
-                    resultado = cartao.Pagar(precoPedido);
-                }else if(metodoPagamento.equals("Pix")){
-                    PagamentoPix pix = new PagamentoPix(precoPedido);
-                    resultado = pix.Pagar(precoPedido);
-                }else if(metodoPagamento.equals("Dinheiro")){}
-                if(resultado){
-                    p.setPago(true);
+
+                if (p.isPago()) {
+                    System.out.println("Pedido já foi pago!");
+                    return false;
                 }
-                break;
+
+                boolean resultado = pagamento.Pagar(valorInserido);
+
+                if (resultado) {
+                    p.setPago(true);
+                    System.out.println("Pedido atualizado: PAGO!");
+                }
+
+                return resultado;
             }
         }
+
+        System.out.println("Pedido não encontrado!");
+        return false;
+    }
+    @Override
+    public void enviarNotificacao(int codigo, String mensagem){
+        for(Pedido p : pedidos) {
+            if(p.getCodigo() == codigo) {
+                p.enviarNotificacao(mensagem);
+                return;
+            }
+        }
+        System.out.println("Pedido não encontrado!");
+    }
+
+    public List<Pedido> obterPedidos() {
+        return Collections.unmodifiableList(pedidos);
     }
 }

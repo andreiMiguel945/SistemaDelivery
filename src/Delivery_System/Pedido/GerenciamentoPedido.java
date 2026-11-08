@@ -1,4 +1,4 @@
-package Delivery_System;
+package Delivery_System.Pedido;
 
 import Delivery_System.Notificacao.Notificacao;
 import Delivery_System.Produto.Produto;

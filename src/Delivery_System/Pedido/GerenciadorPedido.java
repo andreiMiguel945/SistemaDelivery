@@ -1,4 +1,4 @@
-package Delivery_System;
+package Delivery_System.Pedido;
 
 
 import Delivery_System.Notificacao.Notificacao;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GerenciadorPedido implements GerenciamentoPedido{
+public class GerenciadorPedido implements GerenciamentoPedido {
 
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private int contador = 0;

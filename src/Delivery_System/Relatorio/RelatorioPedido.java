@@ -1,4 +1,6 @@
-package Delivery_System;
+package Delivery_System.Relatorio;
+
+import Delivery_System.Pedido.Pedido;
 
 import java.util.List;
 
